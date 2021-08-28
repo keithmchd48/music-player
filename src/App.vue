@@ -1,6 +1,6 @@
 <template>
 
-  <audio src="" id="audio-source"></audio>
+  <audio preload="metadata" :src="currentMusicSource" id="audio-source"></audio>
 
   <!-- home section -->
 
@@ -37,29 +37,6 @@
         <p class="playlist-card-name">justin biber</p>
       </div>
     </div>
-    <h1 class="heading">based on your listening</h1>
-    <div class="playlists-group">
-      <div class="playlist-card">
-        <img src="./assets/covers/cover11.png" class="playlist-card-img" alt="">
-        <p class="playlist-card-name">top international</p>
-      </div>
-      <div class="playlist-card">
-        <img src="./assets/covers/cover12.png" class="playlist-card-img" alt="">
-        <p class="playlist-card-name">BTS collection</p>
-      </div>
-      <div class="playlist-card">
-        <img src="./assets/covers/cover13.png" class="playlist-card-img" alt="">
-        <p class="playlist-card-name">bollywood hits</p>
-      </div>
-      <div class="playlist-card">
-        <img src="./assets/covers/cover1.png" class="playlist-card-img" alt="">
-        <p class="playlist-card-name">top 50</p>
-      </div>
-      <div class="playlist-card">
-        <img src="./assets/covers/cover3.png" class="playlist-card-img" alt="">
-        <p class="playlist-card-name">justin biber</p>
-      </div>
-    </div>
   </section>
 
 <!--Music player section-->
@@ -70,27 +47,33 @@
          @click.stop="toggleMusicPlayer(false)">
     <img src="./assets/covers/nav.png" class="nav-btn cursor-pointer icon hide" alt="" @click="togglePlaylist(true)">
 
-    <h1 class="current-song-name">song 1</h1>
-    <p class="artist-name hide">artist 1</p>
+    <h1 class="current-song-name">{{currentSongName}}</h1>
+    <p class="artist-name hide">{{currentSongArtist}}</p>
 
-    <img src="./assets/covers/cover1.png" class="cover hide" alt="">
+    <img :src="currentSongCover" class="cover hide" alt="">
 
     <div class="seek-bar-container">
-      <input type="range" class="music-seek-bar" value="0">
-      <p class="current-time hide">00 : 00</p>
-      <p class="duration hide">00 : 00</p>
+<!--   Music Player   -->
+      <input type="range" class="music-seek-bar cursor-pointer" @change="jumpSeekBar" :value="seekBar" :max="seekBarMax">
+      <p class="current-time hide">{{currentSongTime}}</p>
+      <p class="duration hide">{{currentSongDuration}}</p>
     </div>
 
     <div class="controls">
-      <span class="fas fa-redo"></span>
+      <span class="fas fa-redo cursor-pointer" :class="{'active': shouldSongRepeat}" @click="toggleRepeat"></span>
       <div class="main">
-        <i class="fas fa-backward active"></i>
-        <i class="fas fa-play active"></i>
-        <i class="fas fa-pause"></i>
-        <i class="fas fa-forward active"></i>
+        <i class="fas fa-backward active cursor-pointer" @click.stop="previousSong"></i>
+        <i class="fas fa-play cursor-pointer" :class="{'active': isPaused}" @click.stop="hitPlay"></i>
+        <i class="fas fa-pause cursor-pointer" :class="{'active': !isPaused}" @click.stop="hitPause"></i>
+        <i class="fas fa-forward active cursor-pointer" @click.stop="nextSong"></i>
       </div>
-      <input type="range" class="volume-slider" :class="{'active': isVolumeSliderActive}" max="1" value="1" step="0.1">
-      <span class="fas fa-volume-up cursor-pointer" :class="{'active': isVolumeSliderActive}" @click.stop="toggleVolumeSlider"></span>
+<!--      Volume control slider-->
+      <input type="range" class="volume-slider" max="1" step="0.1"
+             @input="changeVolume"
+             v-model="musicVolume"
+             :class="{'active': isVolumeSliderActive}">
+      <span class="fas fa-volume-up cursor-pointer" :class="{'active': isVolumeSliderActive}"
+            @click.stop="toggleVolumeSlider"></span>
     </div>
 
   </section>
@@ -101,63 +84,16 @@
     <img src="./assets/covers/back.png" class="back-btn icon cursor-pointer"
          @click="togglePlaylist(false)" alt="">
 
-    <h1 class="title">playlist</h1>
+    <h1 class="title">Playlist</h1>
 
-    <div class="queue active">volumeBtn
+    <div v-for="(song, ind) in allSongs" :key="ind" class="queue cursor-pointer"
+         :class="{'active': currentMusic === ind}"
+         @click.stop="clickRandomSong(ind)">
       <div class="queue-cover">
-        <img src="./assets/covers/cover1.png" alt="">
+        <img :src="song.cover" alt="">
         <i class="fas fa-pause"></i>
       </div>
-      <p class="name">song 1</p>
-    </div>
-    <div class="queue">
-      <div class="queue-cover">
-        <img src="./assets/covers/cover2.png" alt="">
-        <i class="fas fa-pause"></i>
-      </div>
-      <p class="name">song 2</p>
-    </div>
-    <div class="queue">
-      <div class="queue-cover">
-        <img src="./assets/covers/cover3.png" alt="">
-        <i class="fas fa-pause"></i>
-      </div>
-      <p class="name">song 3</p>
-    </div>
-    <div class="queue">
-      <div class="queue-cover">
-        <img src="./assets/covers/cover4.png" alt="">
-        <i class="fas fa-pause"></i>
-      </div>
-      <p class="name">song 4</p>
-    </div>
-    <div class="queue">
-      <div class="queue-cover">
-        <img src="./assets/covers/cover5.png" alt="">
-        <i class="fas fa-pause"></i>
-      </div>
-      <p class="name">song 5</p>
-    </div>
-    <div class="queue">
-      <div class="queue-cover">
-        <img src="./assets/covers/cover6.png" alt="">
-        <i class="fas fa-pause"></i>
-      </div>
-      <p class="name">song 6</p>
-    </div>
-    <div class="queue">
-      <div class="queue-cover">
-        <img src="./assets/covers/cover7.png" alt="">
-        <i class="fas fa-pause"></i>
-      </div>
-      <p class="name">song 7</p>
-    </div>
-    <div class="queue">
-      <div class="queue-cover">
-        <img src="./assets/covers/cover8.png" alt="">
-        <i class="fas fa-pause"></i>
-      </div>
-      <p class="name">song 8</p>
+      <p class="name">{{song.name}}</p>
     </div>
 
   </section>
@@ -174,15 +110,24 @@ export default {
       carouselCoverIndex: 0,
       isMusicPlayerActive: false,
       isPlaylistActive: false,
-      isVolumeSliderActive: false
+      isVolumeSliderActive: false,
+      music: null,
+      seekBar: 0,
+      seekBarMax: 0,
+      currentMusic: 0,
+      musicVolume: 1,
+      isPaused: true,
+      currentSongDuration: '00:00',
+      currentSongTime: '00:00',
+      shouldSongRepeat: false
     }
   },
   created() {
     this.allSongs = [...songs]
     this.carouselCovers = this.allSongs.map((s, ind) => {
+      const {cover, alt} = s
       return {
-        cover: s.cover,
-        alt: `Cover${ind+1}`,
+        cover, alt,
         isActive: ind === 0 ? true : false // make the first cover as active in the beginning
       }
     })
@@ -192,8 +137,42 @@ export default {
     setInterval(() => {
       this.changeCarousel();
     }, 3000);
+    this.music = document.querySelector('#audio-source')
+    const ctx = this
+    this.music.addEventListener("loadeddata", function() {
+      ctx.audioDataLoaded(this.duration, this.currentTime)
+    });
+    this.setMusic(0)
+    this.seekBarProgression()
+  },
+  computed: {
+    currentMusicSource() {
+      return this.allSongs[this.currentMusic].path
+    },
+    currentSongName() {
+      return this.allSongs[this.currentMusic].name
+    },
+    currentSongArtist() {
+      return this.allSongs[this.currentMusic].artist
+    },
+    currentSongCover() {
+      return this.allSongs[this.currentMusic].cover
+    }
   },
   methods: {
+    formatTime(time) {
+      let min = Math.floor(time / 60);
+      if(min < 10){
+        min = `0` + min;
+      }
+
+      let sec = Math.floor(time % 60);
+      if(sec < 10){
+        sec = `0` + sec;
+      }
+
+      return `${min} : ${sec}`;
+    },
     // method for continously changing the cover on home section within 3 secs interval
     changeCarousel() {
       // set the previously active cover as inactive
@@ -217,6 +196,79 @@ export default {
     },
     toggleVolumeSlider() {
       this.isVolumeSliderActive = !this.isVolumeSliderActive
+    },
+    hitPlay() {
+      this.music.play();
+      this.isPaused = false
+    },
+    hitPause() {
+      this.music.pause();
+      this.isPaused = true
+    },
+    nextSong() {
+      if(this.currentMusic >= this.allSongs.length - 1){
+        this.currentMusic = 0;
+      } else{
+        this.currentMusic++;
+      }
+      this.setMusic(this.currentMusic);
+      this.$nextTick(() => {
+        this.hitPlay()
+      })
+    },
+    previousSong() {
+      if(this.currentMusic <= 0){
+        this.currentMusic = this.allSongs.length - 1;
+      } else{
+        this.currentMusic--;
+      }
+      this.setMusic(this.currentMusic);
+      this.$nextTick(() => {
+        this.hitPlay()
+      })
+    },
+    changeVolume() {
+      this.music.volume = this.musicVolume
+    },
+    setMusic(i) {
+      this.seekBar = 0;
+      this.currentMusic = i
+    },
+    clickRandomSong(i) {
+      this.setMusic(i)
+      this.$nextTick(() => {
+        this.hitPlay()
+      })
+      this.isPlaylistActive = false
+    },
+    toggleRepeat() {
+      this.shouldSongRepeat = !this.shouldSongRepeat
+    },
+    audioDataLoaded(duration, currentTime) {
+      this.seekBarMax = duration
+      this.currentSongDuration = this.formatTime(duration)
+      this.currentSongTime = this.formatTime(currentTime)
+    },
+    jumpSeekBar(event) {
+      this.music.currentTime = +event.target.value
+    },
+    seekBarProgression() {
+      setInterval(() => {
+        this.seekBar = this.music.currentTime
+        this.currentSongTime = this.formatTime(this.music.currentTime)
+        // if the song ends, then check the condition whether repeat icon is on or off
+        if(Math.floor(this.music.currentTime) === Math.floor(this.seekBarMax)){
+          // is repeat icon ON
+          if(this.shouldSongRepeat){
+            this.setMusic(this.currentMusic);
+            this.$nextTick(() => {
+              this.hitPlay()
+            })
+          } else{
+            this.nextSong()
+          }
+        }
+      }, 500)
     }
   }
 }
@@ -361,12 +413,12 @@ body{
 }
 
 .music-seek-bar::-webkit-slider-thumb{
-  -webkit-appearance: none;
-  height: 10px;
-  width: 5px;
-  background: var(--primary-color);
-  cursor: pointer;
-  box-shadow: -400px 0 0 400px var(--primary-color);
+  /*-webkit-appearance: none;*/
+  /*height: 10px;*/
+  /*width: 5px;*/
+  /*background: var(--primary-color);*/
+  /*cursor: pointer;*/
+  /*box-shadow: -400px 0 0 400px var(--primary-color);*/
 }
 
 .current-song-name{
@@ -598,5 +650,75 @@ body{
 }
 .cursor-pointer {
   cursor: pointer;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  background: transparent;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  height: 1.5rem;
+  border-radius: 0.75rem;
+  background: #211f1f;
+}
+
+input[type=range]::-moz-range-track {
+  -webkit-appearance: none;
+  height: 1.5rem;
+  border-radius: 0.75rem;
+  background: #211f1f;
+}
+
+input[type=range]::-moz-range-progress {
+  background: #211f1f;
+  height: 1.5rem;
+  border-radius: 0.75rem 0 0 0.75rem;
+}
+
+input[type=range]::-ms-track {
+  -webkit-appearance: none;
+  height: 1.5rem;
+  border-radius: 0.75rem;
+  background: #211f1f;
+  color: transparent;
+  border: 0;
+}
+
+input[type=range]::-ms-fill-lower {
+  background: #1e3650;
+  border-radius: 0.75rem 0 0 0.75rem;
+}
+
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: .75rem;
+  background: var(--primary-color);
+  cursor: pointer;
+  margin-top: 0;
+}
+
+input[type=range]::-moz-range-thumb {
+  -webkit-appearance: none;
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 0.75rem;
+  background: var(--primary-color);
+  cursor: pointer;
+  margin-top: -14px;
+}
+
+input[type=range]::-ms-thumb {
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 0.75rem;
+  background: var(--primary-color);
+  cursor: pointer;
+  margin-top: -14px;
 }
 </style>
