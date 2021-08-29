@@ -16,7 +16,8 @@
     <!-- recently played -->
     <h1 class="heading">recently played</h1>
     <div class="playlists-group">
-      <div class="playlist-card" v-for="(song, index) in allSongs" :key="index">
+      <div class="playlist-card cursor-pointer" v-for="(song, index) in recentlyPlayedSongs" :key="index"
+           @click="clickRandomSong(song.id)">
         <img :src="song.cover" class="playlist-card-img" :alt="song.alt">
         <p class="playlist-card-name">{{ song.name }}</p>
       </div>
@@ -90,6 +91,7 @@ export default {
   data () {
     return {
       allSongs: [],
+      recentlyPlayedSongs: [],
       carouselCovers: [],
       carouselCoverIndex: 0,
       isMusicPlayerActive: false,
@@ -195,7 +197,6 @@ export default {
       } else{
         this.setMusic(this.currentMusic + 1);
       }
-      this.setMusic(this.currentMusic);
       this.$nextTick(() => {
         this.hitPlay()
       })
@@ -216,7 +217,9 @@ export default {
     setMusic(i) {
       this.seekBar = 0;
       this.currentMusic = i
+      this.addToRecentlyPlayed(i)
     },
+    // when a random song is clicked upon from the playlist section
     clickRandomSong(i) {
       this.setMusic(i)
       this.$nextTick(() => {
@@ -227,6 +230,7 @@ export default {
     toggleRepeat() {
       this.shouldSongRepeat = !this.shouldSongRepeat
     },
+    // this method runs every time a new song is added to the <audio> tag
     audioDataLoaded(duration, currentTime) {
       this.seekBarMax = duration
       this.currentSongDuration = this.formatTime(duration)
@@ -235,6 +239,7 @@ export default {
     jumpSeekBar(event) {
       this.music.currentTime = +event.target.value
     },
+    // update the progress bar of the song every 500ms to move forward
     seekBarProgression() {
       setInterval(() => {
         this.seekBar = this.music.currentTime
@@ -250,6 +255,14 @@ export default {
           }
         }
       }, 500)
+    },
+    addToRecentlyPlayed(index) {
+      // add the latest played song to the front of the array
+      this.recentlyPlayedSongs = [this.allSongs[index], ...this.recentlyPlayedSongs]
+      // if the array exceeds the song list number, then pop the song which was last
+      if (this.recentlyPlayedSongs.length > this.allSongs.length) {
+        this.recentlyPlayedSongs.pop()
+      }
     }
   }
 }
