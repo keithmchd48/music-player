@@ -13,28 +13,12 @@
            :alt="cover.alt">
     </div>
 
-    <!-- playlists -->
+    <!-- recently played -->
     <h1 class="heading">recently played</h1>
     <div class="playlists-group">
-      <div class="playlist-card">
-        <img src="./assets/covers/cover9.png" class="playlist-card-img" alt="">
-        <p class="playlist-card-name">top international</p>
-      </div>
-      <div class="playlist-card">
-        <img src="./assets/covers/cover2.png" class="playlist-card-img" alt="">
-        <p class="playlist-card-name">BTS collection</p>
-      </div>
-      <div class="playlist-card">
-        <img src="./assets/covers/cover10.png" class="playlist-card-img" alt="">
-        <p class="playlist-card-name">bollywood hits</p>
-      </div>
-      <div class="playlist-card">
-        <img src="./assets/covers/cover11.png" class="playlist-card-img" alt="">
-        <p class="playlist-card-name">top 50</p>
-      </div>
-      <div class="playlist-card">
-        <img src="./assets/covers/cover5.png" class="playlist-card-img" alt="">
-        <p class="playlist-card-name">justin biber</p>
+      <div class="playlist-card" v-for="(song, index) in allSongs" :key="index">
+        <img :src="song.cover" class="playlist-card-img" :alt="song.alt">
+        <p class="playlist-card-name">{{ song.name }}</p>
       </div>
     </div>
   </section>
@@ -381,7 +365,7 @@ body{
 
 .playlist-card-name{
   width: 100%;
-  text-align: justify;
+  /*text-align: justify;*/
   font-size: 20px;
   text-transform: capitalize;
   padding: 5px;
@@ -410,15 +394,6 @@ body{
   height: 8px;
   background: var(--secondary-color);
   overflow: hidden;
-}
-
-.music-seek-bar::-webkit-slider-thumb{
-  /*-webkit-appearance: none;*/
-  /*height: 10px;*/
-  /*width: 5px;*/
-  /*background: var(--primary-color);*/
-  /*cursor: pointer;*/
-  /*box-shadow: -400px 0 0 400px var(--primary-color);*/
 }
 
 .current-song-name{
