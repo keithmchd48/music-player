@@ -1,58 +1,79 @@
 export const songs = [
   {
-    name: 'Song 1',
+    name: 'A window to the past',
     path: './assets/songs/Song1.mp3',
-    artist: 'Artist 1',
-    cover: './assets/covers/cover1.png',
+    artist: 'John Williams',
+    cover: './assets/covers/cover1.jpeg',
     alt: 'Cover 1'
   },
   {
-    name: 'Song 2',
+    name: 'Come on Eileen',
     path: './assets/songs/Song2.mp3',
-    artist: 'Artist 2',
-    cover: './assets/covers/cover2.png',
+    artist: 'Dexys midnight runners',
+    cover: './assets/covers/cover2.jpg',
     alt: 'Cover 2'
   },
   {
-    name: 'Song 3',
+    name: 'Como los olivos',
     path: './assets/songs/Song3.mp3',
-    artist: 'Artist 3',
-    cover: './assets/covers/cover3.png',
+    artist: 'Bebe',
+    cover: './assets/covers/cover3.jpg',
     alt: 'Cover 3'
   },
   {
-    name: 'Song 4',
+    name: 'Heroes',
     path: './assets/songs/Song4.mp3',
-    artist: 'Artist 4',
+    artist: 'David Bowie',
     cover: './assets/covers/cover4.png',
     alt: 'Cover 4'
   },
   {
-    name: 'Song 5',
+    name: 'Nobody but me',
     path: './assets/songs/Song5.mp3',
-    artist: 'Artist 5',
-    cover: './assets/covers/cover5.png',
+    artist: 'The Human Beinz',
+    cover: './assets/covers/cover5.jpeg',
     alt: 'Cover 5'
   },
   {
-    name: 'Song 6',
+    name: 'O Children',
     path: './assets/songs/Song6.mp3',
-    artist: 'Artist 6',
-    cover: './assets/covers/cover6.png',
+    artist: 'Nick Cave & the bad seeds',
+    cover: './assets/covers/cover6.jpeg',
     alt: 'Cover 6'
   },
   {
-    name: 'Song 7',
+    name: 'Siempre me quedara',
     path: './assets/songs/Song7.mp3',
-    artist: 'Artist 7',
-    cover: './assets/covers/cover7.png',
+    artist: 'Bebe',
+    cover: './assets/covers/cover7.jpeg',
     alt: 'Cover 7'
   },
   {
-    name: 'Song 8',
+    name: 'The other side',
     path: './assets/songs/Song8.mp3',
-    artist: 'Artist 8',
-    cover: './assets/covers/cover8.png',
+    artist: 'Hugh Jackman & Zac Efron',
+    cover: './assets/covers/cover8.jpeg',
     alt: 'Cover 8'
+  },
+  {
+    name: 'Femme like you',
+    path: './assets/songs/Song9.mp3',
+    artist: 'Monaldin feat. emma peters',
+    cover: './assets/covers/cover9.jpeg',
+    alt: 'Cover 9'
+  },
+  {
+    name: 'Honeypie',
+    path: './assets/songs/Song10.mp3',
+    artist: 'JAWNY',
+    cover: './assets/covers/cover10.jpeg',
+    alt: 'Cover 10'
+  },
+  {
+    name: 'Rolling in the deep',
+    path: './assets/songs/Song11.mp3',
+    artist: 'Adele',
+    cover: './assets/covers/cover11.png',
+    alt: 'Cover 11'
   }
 ]
