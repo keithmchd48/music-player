@@ -191,9 +191,9 @@ export default {
     },
     nextSong() {
       if(this.currentMusic >= this.allSongs.length - 1){
-        this.currentMusic = 0;
+        this.setMusic(0);
       } else{
-        this.currentMusic++;
+        this.setMusic(this.currentMusic + 1);
       }
       this.setMusic(this.currentMusic);
       this.$nextTick(() => {
@@ -202,11 +202,10 @@ export default {
     },
     previousSong() {
       if(this.currentMusic <= 0){
-        this.currentMusic = this.allSongs.length - 1;
+        this.setMusic(this.allSongs.length - 1);
       } else{
-        this.currentMusic--;
+        this.setMusic(this.currentMusic - 1);
       }
-      this.setMusic(this.currentMusic);
       this.$nextTick(() => {
         this.hitPlay()
       })
