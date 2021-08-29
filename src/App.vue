@@ -245,9 +245,7 @@ export default {
           // is repeat icon ON
           if(this.shouldSongRepeat){
             this.setMusic(this.currentMusic);
-            this.$nextTick(() => {
-              this.hitPlay()
-            })
+            this.hitPlay()
           } else{
             this.nextSong()
           }
