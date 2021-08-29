@@ -27,9 +27,9 @@
   <section class="music-player-section" @click="toggleMusicPlayer(true)"
            :class="{'active': isMusicPlayerActive}">
 
-    <img src="/assets/covers/back.png" class="back-btn cursor-pointer icon hide" alt="back button"
+    <img src="assets/covers/back.png" class="back-btn cursor-pointer icon hide" alt="back button"
          @click.stop="toggleMusicPlayer(false)">
-    <img src="/assets/covers/nav.png" class="nav-btn cursor-pointer icon hide" alt="" @click="togglePlaylist(true)">
+    <img src="assets/covers/nav.png" class="nav-btn cursor-pointer icon hide" alt="" @click="togglePlaylist(true)">
 
     <h1 class="current-song-name">{{currentSongName}}</h1>
     <p class="artist-name hide">{{currentSongArtist}}</p>
@@ -65,7 +65,7 @@
 <!--Playlist section-->
   <section class="playlist" :class="{'active': isPlaylistActive}">
 
-    <img src="/assets/covers/back.png" class="back-btn icon cursor-pointer"
+    <img src="assets/covers/back.png" class="back-btn icon cursor-pointer"
          @click="togglePlaylist(false)" alt="">
 
     <h1 class="title">Playlist</h1>
