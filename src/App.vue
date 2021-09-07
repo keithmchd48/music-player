@@ -6,22 +6,10 @@
 
   <section class="home-section">
     <!-- carousel -->
-    <div class="carousel">
-      <img v-for="(cover, index) in carouselCovers" :key="index"
-           :src="cover.cover"
-           :class="{'active': cover.isActive}"
-           :alt="cover.alt">
-    </div>
+    <Carousel :covers="carouselCovers"></Carousel>
 
     <!-- recently played -->
-    <h1 class="heading">recently played</h1>
-    <div class="playlists-group">
-      <div class="playlist-card cursor-pointer" v-for="(song, index) in recentlyPlayedSongs" :key="index"
-           @click="clickRandomSong(song.id)">
-        <img :src="song.cover" class="playlist-card-img" :alt="song.alt">
-        <p class="playlist-card-name">{{ song.name }}</p>
-      </div>
-    </div>
+    <RecentlyPlayed :songs="recentlyPlayedSongs" @click-random-song="clickRandomSong"></RecentlyPlayed>
   </section>
 
 <!--Music player section-->
@@ -86,8 +74,11 @@
 
 <script>
 import {songs} from '/src/data/songs'
+import Carousel from "@/components/Carousel";
+import RecentlyPlayed from "@/components/RecentlyPlayed";
 export default {
   name: 'App',
+  components: {RecentlyPlayed, Carousel},
   data () {
     return {
       allSongs: [],
@@ -314,71 +305,6 @@ body{
   height: 100%;
   padding-bottom: 100px;
   overflow-y: auto;
-}
-
-/* carousel */
-
-.carousel{
-  width: 100%;
-  height: 200px;
-  overflow: hidden;
-  border-radius: 20px;
-  box-shadow: var(--shadow);
-  position: relative;
-}
-
-.carousel img{
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: 1s;
-}
-
-.carousel img.active{
-  opacity: 1;
-}
-
-.heading{
-  margin: 30px 0 10px;
-  text-transform: capitalize;
-  font-weight: 400;
-  font-size: 30px;
-}
-
-/* playlists card */
-
-.playlists-group{
-  position: relative;
-  width: 100%;
-  min-height: 200px;
-  height: auto;
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-}
-
-.playlist-card{
-  flex: 0 0 auto;
-  max-width: 150px;
-  height: 100%;
-  margin-right: 20px;
-}
-
-.playlist-card-img{
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 20px;
-}
-
-.playlist-card-name{
-  width: 100%;
-  /*text-align: justify;*/
-  font-size: 20px;
-  text-transform: capitalize;
-  padding: 5px;
 }
 
 /* music player */
