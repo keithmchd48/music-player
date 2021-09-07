@@ -13,7 +13,7 @@
   </section>
 
 <!--Music player section-->
-  <section class="music-player-section" @click="toggleMusicPlayer(true)"
+  <section class="music-player-section backdrop-blur" @click="toggleMusicPlayer(true)"
            :class="{'active': isMusicPlayerActive}">
 
     <img src="assets/covers/back.png" class="back-btn cursor-pointer icon hide" alt="back button"
@@ -57,17 +57,10 @@
     <img src="assets/covers/back.png" class="back-btn icon cursor-pointer"
          @click="togglePlaylist(false)" alt="">
 
-    <h1 class="title">Playlist</h1>
-
-    <div v-for="(song, ind) in allSongs" :key="ind" class="queue cursor-pointer"
-         :class="{'active': currentMusic === ind}"
-         @click.stop="clickRandomSong(ind)">
-      <div class="queue-cover">
-        <img :src="song.cover" alt="">
-        <i class="fas fa-pause"></i>
-      </div>
-      <p class="name">{{song.name}}</p>
-    </div>
+    <Playlist :songs="allSongs" :currentMusic="currentMusic"
+              @click-random-song="clickRandomSong">
+      Playlist
+    </Playlist>
 
   </section>
 </template>
@@ -78,9 +71,10 @@ import Carousel from "@/components/Carousel";
 import RecentlyPlayed from "@/components/RecentlyPlayed";
 import Seekbar from "@/components/Seekbar";
 import IconControl from "@/components/IconControl";
+import Playlist from "@/components/Playlist";
 export default {
   name: 'App',
-  components: {IconControl, Seekbar, RecentlyPlayed, Carousel},
+  components: {Playlist, IconControl, Seekbar, RecentlyPlayed, Carousel},
   data () {
     return {
       allSongs: [],
@@ -320,8 +314,20 @@ body{
   bottom: 0;
   left: 0;
   background: var(--alpha-color);
-  backdrop-filter: blur(50px);
   transition: 1s;
+}
+
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .backdrop-blur {
+    -webkit-backdrop-filter: blur(50px);
+    backdrop-filter: blur(50px);
+  }
+}
+/* slightly transparent fallback for Firefox (not supporting backdrop-filter) */
+@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+  .backdrop-blur {
+    background-color: rgba(9, 9, 9, 0.9);
+  }
 }
 
 .current-song-name{
@@ -472,57 +478,6 @@ body{
   right: 0;
 }
 
-.title{
-  font-weight: 300;
-  font-size: 40px;
-  text-align: center;
-  margin-top: 15px;
-  text-transform: capitalize;
-  margin-bottom: 30px;
-}
-
-.queue{
-  width: 100%;
-  height: 80px;
-  padding: 0 30px;
-  display: flex;
-  align-items: center;
-  border-top: 2px solid var(--alpha-color);
-}
-
-.queue-cover{
-  width: 60px;
-  height: 60px;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-right: 20px;
-  position: relative;
-}
-
-.queue-cover img{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.queue-cover i{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 30px;
-  color: var(--primary-color);
-  display: none;
-}
-
-.queue.active i{
-  display: block;
-}
-
-.queue .name{
-  font-size: 22px;
-  text-transform: capitalize;
-}
 .cursor-pointer {
   cursor: pointer;
 }
