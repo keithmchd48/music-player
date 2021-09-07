@@ -35,10 +35,10 @@
     <div class="controls">
       <span class="fas fa-redo cursor-pointer" :class="{'active': shouldSongRepeat}" @click="toggleRepeat"></span>
       <div class="main">
-        <i class="fas fa-backward active cursor-pointer" @click.stop="previousSong"></i>
-        <i class="fas fa-play cursor-pointer" :class="{'active': isPaused}" @click.stop="hitPlay"></i>
-        <i class="fas fa-pause cursor-pointer" :class="{'active': !isPaused}" @click.stop="hitPause"></i>
-        <i class="fas fa-forward active cursor-pointer" @click.stop="nextSong"></i>
+        <IconControl iconClass="fas fa-backward" :isActive="true" @emit-click="previousSong"></IconControl>
+        <IconControl iconClass="fas fa-play" :isActive="isPaused" @emit-click="hitPlay"></IconControl>
+        <IconControl iconClass="fas fa-pause" :isActive="!isPaused" @emit-click="hitPause"></IconControl>
+        <IconControl iconClass="fas fa-forward" :isActive="true" @emit-click="nextSong"></IconControl>
       </div>
 <!--      Volume control slider-->
       <input type="range" class="volume-slider" max="1" step="0.1"
@@ -77,9 +77,10 @@ import {songs} from '/src/data/songs'
 import Carousel from "@/components/Carousel";
 import RecentlyPlayed from "@/components/RecentlyPlayed";
 import Seekbar from "@/components/Seekbar";
+import IconControl from "@/components/IconControl";
 export default {
   name: 'App',
-  components: {Seekbar, RecentlyPlayed, Carousel},
+  components: {IconControl, Seekbar, RecentlyPlayed, Carousel},
   data () {
     return {
       allSongs: [],
@@ -361,15 +362,6 @@ body{
 .music-player-section.active .controls span.active{
   color: var(--primary-color);
   opacity: 1;
-}
-
-.controls .main i{
-  margin: 0 5px;
-  display: none;
-}
-
-.controls .main i.active{
-  display: inline;
 }
 
 /* maximize music player styles */
