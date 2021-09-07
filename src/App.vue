@@ -538,7 +538,7 @@ body{
 .volume-slider{
   -webkit-appearance: none;
   width: 100px;
-  height: 40px;
+  /*height: 40px;*/
   position: absolute;
   right: -35px;
   bottom: 80px;
@@ -639,7 +639,7 @@ body{
 
 input[type=range] {
   -webkit-appearance: none;
-  width: 100%;
+  /*width: 100%;*/
   background: transparent;
 }
 
