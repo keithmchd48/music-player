@@ -25,12 +25,12 @@
 
     <img :src="currentSongCover" class="cover hide" alt="">
 
-    <div class="seek-bar-container">
-<!--   Music Player   -->
-      <input type="range" class="music-seek-bar cursor-pointer" @change="jumpSeekBar" :value="seekBar" :max="seekBarMax">
-      <p class="current-time hide">{{currentSongTime}}</p>
-      <p class="duration hide">{{currentSongDuration}}</p>
-    </div>
+    <!--   Music Player   -->
+    <Seekbar :seekBar="seekBar" :seekBarMax="seekBarMax"
+             @change="jumpSeekBar"
+             :currentSongTime="currentSongTime"
+             :currentSongDuration="currentSongDuration">
+    </Seekbar>
 
     <div class="controls">
       <span class="fas fa-redo cursor-pointer" :class="{'active': shouldSongRepeat}" @click="toggleRepeat"></span>
@@ -76,9 +76,10 @@
 import {songs} from '/src/data/songs'
 import Carousel from "@/components/Carousel";
 import RecentlyPlayed from "@/components/RecentlyPlayed";
+import Seekbar from "@/components/Seekbar";
 export default {
   name: 'App',
-  components: {RecentlyPlayed, Carousel},
+  components: {Seekbar, RecentlyPlayed, Carousel},
   data () {
     return {
       allSongs: [],
@@ -322,16 +323,6 @@ body{
   transition: 1s;
 }
 
-.music-seek-bar{
-  -webkit-appearance: none;
-  width: 100%;
-  position: absolute;
-  top: -4px;
-  height: 8px;
-  background: var(--secondary-color);
-  overflow: hidden;
-}
-
 .current-song-name{
   font-weight: 300;
   font-size: 20px;
@@ -402,13 +393,6 @@ body{
   flex-direction: column;
 }
 
-.music-player-section.active .music-seek-bar{
-  position: relative;
-  display: block;
-  border-radius: 50px;
-  margin: auto;
-}
-
 .music-player-section.active .current-song-name{
   font-size: 40px;
 }
@@ -431,18 +415,6 @@ body{
   margin: auto;
   border-radius: 20px;
   box-shadow: var(--shadow);
-}
-
-.current-time{
-  position: absolute;
-  margin-top: 5px;
-  left: 30px;
-}
-
-.duration{
-  position: absolute;
-  margin-top: 5px;
-  right: 30px;
 }
 
 .icon{
