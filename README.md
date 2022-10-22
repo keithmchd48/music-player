@@ -16,3 +16,5 @@ npm run serve
 ```
 npm run build
 ```
+### Hosted on
+https://the-music-app.netlify.app/
