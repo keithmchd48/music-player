@@ -232,7 +232,10 @@ export default {
         this.seekBar = this.music.currentTime
         this.currentSongTime = this.formatTime(this.music.currentTime)
         // if the song ends, then check the condition whether repeat icon is on or off
-        if(Math.floor(this.music.currentTime) === Math.floor(this.seekBarMax)){
+        if(
+            Math.floor(this.music.currentTime) === Math.floor(this.seekBarMax)
+            && Math.floor(this.seekBarMax) !== 0
+          ){
           // is repeat icon ON
           if(this.shouldSongRepeat){
             this.setMusic(this.currentMusic);
